@@ -17,6 +17,14 @@
           "quickstart",
           "features"
         ]
+      },
+      {
+        "group": "Référence technique",
+        "pages": [
+          "architecture",
+          "components",
+          "data-model"
+        ]
       }
     ]
   },

@@ -1,0 +1,84 @@
+---
+title: "Référence des composants"
+description: "Documentation technique des composants React, de leurs props, états internes et comportements d'accessibilité."
+keywords: ["composants", "react", "props", "accessibilité", "TodoForm", "TodoItem", "TagSelector"]
+---
+
+Tous les composants applicatifs se trouvent dans `src/components/` et utilisent des composants fonctionnels React avec hooks standard (`useState`, `useEffect`, `useMemo`, `useRef`).
+
+## `App`
+
+Composant racine situé dans `src/App.jsx`. Il ne reçoit aucune prop et orchestre l'état global ainsi que les filtres.
+
+| État / Valeur | Type | Description |
+| --- | --- | --- |
+| `todos` | `Todo[]` | Liste complète des tâches persistées dans `localStorage`. |
+| `filter` | `'all' \| 'active' \| 'completed'` | Filtre actif (`'all'` par défaut). |
+| `counts` | `{ all: number, active: number, completed: number }` | Compteurs mémoïsés affichés dans le header et les filtres. |
+| `visibleTodos` | `Todo[]` | Sous-ensemble filtré de `todos` rendu dans `.todo-list`. |
+
+## `TodoForm`
+
+Formulaire de création d'une tâche situé dans `src/components/TodoForm.jsx`.
+
+### Props
+
+| Prop | Type | Requis | Description |
+| --- | --- | --- | --- |
+| `onAdd` | `(title: string, tagId: string) => void` | Oui | Callback invoqué lors d'une soumission valide. |
+
+### Comportement et validation
+
+- Maintient trois états locaux : `title` (`''`), `tagId` (`DEFAULT_TAG_ID`, soit `'lavender'`) et `error` (`''`).
+- La validation désactive la validation HTML native (`noValidate`) pour gérer l'erreur manuellement.
+- Si `title.trim()` est vide à la soumission, `error` est affiché dans un paragraphe `role="alert"` et `onAdd` n'est pas appelé.
+- La saisie réinitialise `error` dès que l'utilisateur modifie le champ ; la longueur maximale est fixée à `140` caractères (`maxLength={140}`).
+- Après un ajout réussi, `title` et `error` sont réinitialisés, tandis que `tagId` conserve la dernière catégorie sélectionnée.
+
+## `TodoItem`
+
+Ligne de tâche interactive située dans `src/components/TodoItem.jsx`. Gère le basculement lecture/édition en ligne et les actions unitaires.
+
+### Props
+
+| Prop | Type | Requis | Description |
+| --- | --- | --- | --- |
+| `todo` | `Todo` | Oui | Objet tâche à afficher. |
+| `onToggle` | `(id: string) => void` | Oui | Bascule l'état `completed`. |
+| `onUpdate` | `(id: string, updates: { title: string, tagId: string }) => void` | Oui | Enregistre les modifications de titre et de catégorie. |
+| `onDuplicate` | `(id: string) => void` | Oui | Duplique la tâche juste en dessous. |
+| `onDelete` | `(id: string) => void` | Oui | Supprime la tâche. |
+
+### Modes d'interaction et clavier
+
+<Tabs>
+  <Tab title="Mode lecture">
+    Affiche une case à cocher personnalisée (`aria-label` dynamique), le titre, le badge de catégorie résolu par `getTagById(todo.tagId)` et trois boutons d'action :
+    - **Dupliquer** (`.icon-btn--duplicate`)
+    - **Modifier** (`.icon-btn--edit`, également déclenchable par `onDoubleClick` sur `.todo-item__content`)
+    - **Supprimer** (`.icon-btn--delete`)
+  </Tab>
+  <Tab title="Mode édition">
+    Activé par `startEditing()`, qui synchronise `draftTitle` et `draftTagId` avec `todo` et passe `isEditing` à `true`.
+    - Un `useEffect` focalise automatiquement `editInputRef` et sélectionne le texte (`select()`).
+    - `Enter` déclenche `saveEdit()`. Si `draftTitle.trim()` est vide, `saveEdit()` annule l'édition (`cancelEditing()`) sans appeler `onUpdate`.
+    - `Escape` ou le bouton **Annuler** restaurent les valeurs initiales et ferment l'éditeur.
+  </Tab>
+</Tabs>
+
+## `TagSelector`
+
+Sélecteur de catégorie pastel réutilisable situé dans `src/components/TagSelector.jsx`.
+
+### Props
+
+| Prop | Type | Défaut | Description |
+| --- | --- | --- | --- |
+| `selectedTagId` | `string` | — | Identifiant de la catégorie actuellement sélectionnée. |
+| `onSelect` | `(tagId: string) => void` | — | Callback déclenché au clic sur une pastille. |
+| `size` | `'md' \| 'sm'` | `'md'` | Variante visuelle (`'md'` dans `TodoForm`, `'sm'` dans `TodoItem`). |
+
+<Tip>
+  Le composant implémente le motif ARIA `role="radiogroup"` avec des boutons `role="radio"` portant l'attribut `aria-checked`, permettant aux lecteurs d'écran d'identifier la catégorie active.
+</Tip>
+

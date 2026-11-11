@@ -15,6 +15,12 @@ keywords: ["todo", "react", "vite", "pastel", "crud", "localStorage"]
   <Card title="Fonctionnalités et palette" icon="palette" href="/features">
     Découvrez les opérations CRUD, les filtres et les couleurs pastel utilisées.
   </Card>
+  <Card title="Architecture et flux de données" icon="diagram-project" href="/architecture">
+    Explorez l'état React dans App, les diagrammes de flux et la persistance localStorage.
+  </Card>
+  <Card title="Référence des composants" icon="cubes" href="/components">
+    Consultez les props, états internes et comportements d'accessibilité des composants.
+  </Card>
 </Columns>
 
 ## Structure du projet
@@ -27,6 +33,9 @@ testMintlify/
 ├── index.mdx                  # Page d'accueil de la documentation
 ├── quickstart.mdx             # Guide de démarrage rapide
 ├── features.mdx               # Détails CRUD, persistance et palette pastel
+├── architecture.mdx           # Flux de données, cycle de vie et règles métier
+├── components.mdx             # Référence technique des composants React
+├── data-model.mdx             # Schéma JSON, module palette.js et tokens CSS
 ├── index.html                 # Point d'entrée HTML de Vite
 ├── package.json               # Scripts et dépendances React / Vite
 ├── vite.config.js             # Configuration Vite
@@ -36,7 +45,7 @@ testMintlify/
     ├── constants/palette.js   # Définition des 5 catégories pastel
     ├── components/
     │   ├── TodoForm.jsx       # Création d'une tâche
-    │   ├── TodoItem.jsx       # Affichage, édition en ligne et suppression
+    │   ├── TodoItem.jsx       # Affichage, édition en ligne, duplication et suppression
     │   └── TagSelector.jsx    # Sélecteur de catégorie pastel
     └── styles/index.css       # Feuille de styles pastel
 ```

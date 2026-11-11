@@ -1,0 +1,107 @@
+---
+title: "Modèle de données et stylisation"
+description: "Schéma JSON des tâches, contrat du module palette.js et architecture CSS pastel."
+keywords: ["schéma", "json", "localStorage", "palette", "css", "tokens"]
+---
+
+Cette page décrit les structures de données persistées dans le navigateur, l'API du module de palette et les variables CSS utilisées pour le thème pastel.
+
+## Schéma d'une tâche (`Todo`)
+
+Chaque élément stocké dans le tableau JSON sous la clé `localStorage` `pastel_todos_v1` suit la structure suivante :
+
+| Champ | Type | Contraintes | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | Unique, non vide | Généré via `crypto.randomUUID()` ou horodatage + suffixe hexadécimal. |
+| `title` | `string` | Trimé, 1 à 140 caractères | Intitulé de la tâche affiché dans la liste. |
+| `tagId` | `string` | Clé de `PASTEL_TAGS` | Identifiant de catégorie (`'lavender'`, `'peach'`, `'sky'`, `'rose'`, `'mint'`). |
+| `completed` | `boolean` | `true` ou `false` | État d'avancement de la tâche. |
+
+### Exemple de payload `localStorage`
+
+```json pastel_todos_v1
+[
+  {
+    "id": "sample-1",
+    "title": "Préparer le café et planifier la journée",
+    "tagId": "mint",
+    "completed": true
+  },
+  {
+    "id": "sample-2",
+    "title": "Finaliser la maquette aux tons pastel",
+    "tagId": "peach",
+    "completed": false
+  },
+  {
+    "id": "sample-3",
+    "title": "Lire 20 minutes ce soir",
+    "tagId": "sky",
+    "completed": false
+  }
+]
+```
+
+## Module `src/constants/palette.js`
+
+Le module expose la configuration des catégories et la fonction de résolution utilisée par `TodoItem` et `TagSelector` :
+
+```js src/constants/palette.js
+export const DEFAULT_TAG_ID = 'lavender';
+
+export function getTagById(tagId) {
+  return PASTEL_TAGS.find((tag) => tag.id === tagId) ?? PASTEL_TAGS[0];
+}
+```
+
+Chaque entrée de `PASTEL_TAGS` contient six propriétés : `id`, `label`, `bg`, `border`, `text` et `dot`. Si une tâche stockée possède un `tagId` inconnu, `getTagById` retourne le premier élément (`lavender` / Général).
+
+## Variables CSS et stylisation
+
+La feuille `src/styles/index.css` combine des variables globales dans `:root` et des propriétés personnalisées injectées dynamiquement par React via l'attribut `style`.
+
+<CodeGroup>
+
+```css Variables globales (:root)
+:root {
+  --bg-canvas: #fdfaf7;
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-subtle: #faf7ff;
+  --border-soft: #ece5f5;
+  --text-main: #2d293b;
+  --text-muted: #766f8a;
+  --primary-bg: #d9c6ff;
+  --primary-bg-hover: #ccb3ff;
+  --primary-text: #452b7a;
+  --mint-bg: #d8f5e5;
+  --mint-border: #8fd9b2;
+  --mint-text: #226444;
+  --rose-bg: #ffe2ec;
+  --rose-text: #a62b5a;
+}
+```
+
+```jsx Injection dynamique dans TodoItem.jsx
+<li
+  className={`todo-item ${todo.completed ? 'todo-item--completed' : ''}`}
+  style={{ '--item-accent': tag.dot, '--item-tint': tag.bg }}
+>
+  <span
+    className="todo-badge"
+    style={{
+      '--tag-bg': tag.bg,
+      '--tag-border': tag.border,
+      '--tag-text': tag.text,
+    }}
+  >
+    {tag.label}
+  </span>
+</li>
+```
+
+</CodeGroup>
+
+### Comportement responsive
+
+Sous `540px` (`@media (max-width: 540px)`), `.todo-card` réduit son padding à `1.35rem`, l'en-tête `.todo-header` passe en colonne et le champ d'ajout `.todo-form__row` empile l'input et le bouton **+ Ajouter** verticalement.
+
