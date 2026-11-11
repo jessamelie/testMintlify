@@ -1,47 +1,50 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Démarrage rapide"
+description: "Installez et lancez Ma To-Do et sa documentation Mintlify en local."
+keywords: ["installation", "vite", "npm", "mint dev"]
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+## Prérequis
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+Avant de commencer, assurez-vous de disposer de :
 
-## Prerequisites
+- Node.js (version 18 ou supérieure recommandée) et `npm`
+- La CLI Mintlify (`mint`) pour prévisualiser la documentation en local
 
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+## Lancer l'application React
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Installer les dépendances">
+    Installez React et Vite depuis la racine du projet :
 
     ```bash
-    npm install your-package
+    npm install
     ```
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+  <Step title="Démarrer le serveur de développement">
+    Lancez le serveur local Vite :
 
     ```bash
-    your-cli init
+    npm run dev
     ```
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+  <Step title="Générer le build de production">
+    Vérifiez et compilez le bundle statique dans `dist/` :
 
     ```bash
-    your-cli start
+    npm run build
     ```
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## Prévisualiser la documentation Mintlify
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
+Depuis la racine du projet (où se trouve `docs.json`), exécutez :
+
+```bash
+mint dev
+```
+
+<Tip>
+  Si `mint` n'est pas installé globalement, installez-le avec `npm i -g mint` ou utilisez `npx mint@latest dev`.
 </Tip>

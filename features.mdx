@@ -1,0 +1,37 @@
+---
+title: "Fonctionnalités et palette"
+description: "Détails des opérations CRUD, de la persistance localStorage et des couleurs pastel."
+keywords: ["crud", "localStorage", "pastel", "filtres", "catégories"]
+---
+
+## Opérations CRUD
+
+L'état des tâches est géré dans `src/App.jsx` et synchronisé automatiquement avec `localStorage` sous la clé `pastel_todos_v1`.
+
+<AccordionGroup>
+  <Accordion title="Créer une tâche (Create)">
+    Dans `src/components/TodoForm.jsx`, saisissez un intitulé (140 caractères maximum), sélectionnez une catégorie pastel via `TagSelector`, puis cliquez sur **+ Ajouter** ou appuyez sur `Entrée`. Les saisies vides affichent un message de validation.
+  </Accordion>
+  <Accordion title="Lire et filtrer les tâches (Read)">
+    La barre de filtres de `src/App.jsx` affiche les vues **Toutes**, **À faire** et **Terminées** avec le compteur en temps réel du nombre de tâches dans chaque état. Lors de la première visite (quand `pastel_todos_v1` est absent), 3 tâches d'exemple sont préchargées.
+  </Accordion>
+  <Accordion title="Modifier une tâche (Update)">
+    Cochez ou décochez une tâche pour basculer son statut `completed`. Pour modifier son titre ou sa catégorie pastel, cliquez sur l'icône crayon ou double-cliquez sur le texte : validez avec **Enregistrer** (`Entrée`) ou annulez avec **Annuler** (`Échap`).
+  </Accordion>
+  <Accordion title="Supprimer une tâche (Delete)">
+    Cliquez sur l'icône corbeille d'une ligne pour supprimer une tâche individuelle, ou cliquez sur **Effacer terminées** pour retirer toutes les tâches marquées comme terminées.
+  </Accordion>
+</AccordionGroup>
+
+## Palette pastel
+
+Les catégories sont définies dans `PASTEL_TAGS` (`src/constants/palette.js`) avec un contraste lisible entre fond pastel, bordure et texte :
+
+| Catégorie | Identifiant | Fond | Bordure | Texte | Accent |
+| --- | --- | --- | --- | --- | --- |
+| Général | `lavender` | `#EDE4FF` | `#D8C4FF` | `#5B3E96` | `#B794F4` |
+| Travail | `peach` | `#FFE8DC` | `#FFCBB3` | `#9C4221` | `#F6AD8F` |
+| Perso | `sky` | `#DFF2FF` | `#BAE3FF` | `#2B6CB0` | `#90CDF4` |
+| Urgent | `rose` | `#FFE0EA` | `#FFC2D6` | `#97266D` | `#F687B3` |
+| Bien-être | `mint` | `#DCF7E8` | `#B7EBD0` | `#276749` | `#81E6B3` |
+

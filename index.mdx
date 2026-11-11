@@ -1,20 +1,42 @@
 ---
-title: "Introduction"
-description: "Welcome to your project"
+title: "Ma To-Do"
+description: "Documentation de l'application React de to-do list aux couleurs pastel avec CRUD complet."
+keywords: ["todo", "react", "vite", "pastel", "crud", "localStorage"]
 ---
 
-Write a short description of your product here. What it does, who it's for, and what they can accomplish with it.
+**Ma To-Do** est une application web React + Vite qui permet de gérer une liste de tâches quotidienne avec une palette pastel douce et une persistance locale dans `localStorage`.
 
-<Tip>
-  Ready to make this your own? Start by editing this page. Update your `docs.json` file to customize your site. Then fill out the [Quickstart](/quickstart) page.
-</Tip>
+## Aperçu rapide
 
-<Card title="Quickstart" icon="rocket" href="/quickstart">
-  This card links to the quickstart page in your project.
-</Card>
-<Card title="Components" icon="puzzle-piece" href="https://mintlify.com/docs/components">
-  Add cards, callouts, steps, tabs, and more to design and structure your pages.
-</Card>
-<Card title="Settings" icon="gear" href="https://mintlify.com/docs/organize/settings">
-  Set your site name, branding, and navigation in the `docs.json` file.
-</Card>
+<Columns cols={2}>
+  <Card title="Démarrage rapide" icon="rocket" href="/quickstart">
+    Installez les dépendances et lancez l'application en local avec Vite.
+  </Card>
+  <Card title="Fonctionnalités et palette" icon="palette" href="/features">
+    Découvrez les opérations CRUD, les filtres et les couleurs pastel utilisées.
+  </Card>
+</Columns>
+
+## Structure du projet
+
+Le dépôt regroupe le code source de l'application React et sa documentation Mintlify au même endroit :
+
+```text
+testMintlify/
+├── docs.json                  # Configuration du site Mintlify
+├── index.mdx                  # Page d'accueil de la documentation
+├── quickstart.mdx             # Guide de démarrage rapide
+├── features.mdx               # Détails CRUD, persistance et palette pastel
+├── index.html                 # Point d'entrée HTML de Vite
+├── package.json               # Scripts et dépendances React / Vite
+├── vite.config.js             # Configuration Vite
+└── src/
+    ├── main.jsx               # Montage de l'application React
+    ├── App.jsx                # État global, filtres et opérations CRUD
+    ├── constants/palette.js   # Définition des 5 catégories pastel
+    ├── components/
+    │   ├── TodoForm.jsx       # Création d'une tâche
+    │   ├── TodoItem.jsx       # Affichage, édition en ligne et suppression
+    │   └── TagSelector.jsx    # Sélecteur de catégorie pastel
+    └── styles/index.css       # Feuille de styles pastel
+```
