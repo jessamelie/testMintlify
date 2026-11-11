@@ -482,6 +482,11 @@ body {
   height: 17px;
 }
 
+.icon-btn--duplicate:hover {
+  background: #ede4ff;
+  color: #5b3e96;
+}
+
 .icon-btn--edit:hover {
   background: #dff2ff;
   color: #2b6cb0;

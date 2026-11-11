@@ -85,6 +85,27 @@ export default function App() {
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
+  const handleDuplicate = (id) => {
+    setTodos((prev) => {
+      const index = prev.findIndex((todo) => todo.id === id);
+      if (index === -1) return prev;
+
+      const source = prev[index];
+      const suffix = ' (copie)';
+      const title =
+        source.title.length + suffix.length <= 140 ? `${source.title}${suffix}` : source.title;
+
+      const copy = {
+        id: createTaskId(),
+        title,
+        tagId: source.tagId,
+        completed: false,
+      };
+
+      return [...prev.slice(0, index + 1), copy, ...prev.slice(index + 1)];
+    });
+  };
+
   const handleClearCompleted = () => {
     setTodos((prev) => prev.filter((todo) => !todo.completed));
   };
@@ -166,6 +187,7 @@ export default function App() {
                 todo={todo}
                 onToggle={handleToggle}
                 onUpdate={handleUpdate}
+                onDuplicate={handleDuplicate}
                 onDelete={handleDelete}
               />
             ))}

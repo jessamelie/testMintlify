@@ -3,9 +3,9 @@ import { getTagById } from '../constants/palette';
 import TagSelector from './TagSelector';
 
 /**
- * Single to-do item row supporting toggle, inline edit (title + tag), and delete.
+ * Single to-do item row supporting toggle, inline edit (title + tag), duplicate, and delete.
  */
-export default function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
+export default function TodoItem({ todo, onToggle, onUpdate, onDuplicate, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [draftTitle, setDraftTitle] = useState(todo.title);
   const [draftTagId, setDraftTagId] = useState(todo.tagId);
@@ -120,6 +120,31 @@ export default function TodoItem({ todo, onToggle, onUpdate, onDelete }) {
           </div>
 
           <div className="todo-item__actions">
+            <button
+              type="button"
+              className="icon-btn icon-btn--duplicate"
+              onClick={() => onDuplicate(todo.id)}
+              aria-label={`Dupliquer « ${todo.title} »`}
+              title="Dupliquer"
+            >
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <rect
+                  x="7"
+                  y="7"
+                  width="9"
+                  height="9"
+                  rx="2"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                />
+                <path
+                  d="M13 7V5.5A1.5 1.5 0 0011.5 4h-6A1.5 1.5 0 004 5.5v6A1.5 1.5 0 005.5 13H7"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
             <button
               type="button"
               className="icon-btn icon-btn--edit"
